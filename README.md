@@ -1,44 +1,49 @@
+# Read and write CSV files with PHP.
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/ryangjchandler/csv.svg?style=flat-square)](https://packagist.org/packages/ryangjchandler/csv)
+[![Tests](https://github.com/ryangjchandler/csv/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/ryangjchandler/csv/actions/workflows/run-tests.yml)
+[![Total Downloads](https://img.shields.io/packagist/dt/ryangjchandler/csv.svg?style=flat-square)](https://packagist.org/packages/ryangjchandler/csv)
 
-# :package_description
-
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![Tests](https://github.com/:vendor_slug/:package_slug/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/:vendor_slug/:package_slug/actions/workflows/run-tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
----
-This package can be used as to scaffold a framework agnostic package. Follow these steps to get started:
-
-1. Press the "Use template" button at the top of this repo to create a new repo with the contents of this skeleton
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-<!--/delete-->
-This is where your description should go. Try and limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+This package provides a minimalistic wrapper around the excellent [`league/csv`](https://csv.thephpleague.com/) package. The API is heavily inspired by [Ruby's `CSV` class](https://ruby-doc.org/stdlib-3.0.0/libdoc/csv/rdoc/CSV.html).
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via Composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
+composer require ryangjchandler/csv
 ```
 
 ## Usage
 
+### Looping over each row in a file
+
+To loop over each row in a CSV file, you can use the `Csv::foreach` method.
+
 ```php
-$skeleton = new VendorName\Skeleton();
-echo $skeleton->echoPhrase('Hello, VendorName!');
+use RyanChandler\Csv\Csv;
+
+Csv::foreach('/path/to/file', do: function (array $record, int $offset): void {
+
+});
+```
+
+The callback function provided will receive each row in the file as an array.
+
+By default a header row will be read from the top of the file. If you wish to disable this behaviour you can provide a named boolean `header` argument:
+
+```php
+Csv::foreach('/path/to/file', do: function (array $record, int $offset): void {
+
+}, header: false);
+```
+
+If the header for the file isn't on the first row, you can specify the row offset with the `headerOffset` named argument:
+
+```php
+Csv::foreach('/path/to/file', do: function (array $record, int $offset): void {
+
+}, headerOffset: 10);
 ```
 
 ## Testing
@@ -61,7 +66,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Ryan Chandler](https://github.com/ryangjchandler)
 - [All Contributors](../../contributors)
 
 ## License
