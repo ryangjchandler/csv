@@ -18,7 +18,7 @@ composer require ryangjchandler/csv
 
 ### Looping over each row in a file
 
-To loop over each row in a CSV file, you can use the `Csv::foreach` method.
+To loop over each row in a CSV file, you can use the `Csv::foreach()` method.
 
 ```php
 use RyanChandler\Csv\Csv;
@@ -45,6 +45,16 @@ Csv::foreach('/path/to/file', do: function (array $record, int $offset): void {
 
 }, headerOffset: 10);
 ```
+
+### Reading an entire file
+
+When working with small files it's likely easier to read the entire file into a single array. This can be done with the `Csv::read()` method.
+
+```php
+$records = Csv::read('/path/to/file');
+```
+
+This method accepts the same named arguments as `Csv::foreach()` except `$do`.
 
 ## Testing
 

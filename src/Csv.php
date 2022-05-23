@@ -11,7 +11,7 @@ class Csv
 {
     use Macroable;
 
-    public static function foreach(string $path, Closure $do, bool $header = true, int $headerOffset = 0, string $delimiter = ',', string $enclosure = '"'): void
+    final public static function foreach(string $path, Closure $do, bool $header = true, int $headerOffset = 0, string $delimiter = ',', string $enclosure = '"'): void
     {
         $reader = Reader::createFromPath($path)
             ->setDelimiter($delimiter)
@@ -24,5 +24,16 @@ class Csv
         foreach ($reader->getRecords() as $offset => $record) {
             $do($record, $offset);
         }
+    }
+
+    final public static function read(string $path, bool $header = true, int $headerOffset = 0, string $delimiter = ',', string $enclosure = '"'): array
+    {
+        $records = [];
+
+        self::foreach($path, do: function ($record) use (&$records) {
+            $records[] = $record;
+        }, header: $header, headerOffset: $headerOffset, delimiter: $delimiter, enclosure: $enclosure);
+
+        return $records;
     }
 }
