@@ -3,7 +3,6 @@
 namespace RyanChandler\Csv;
 
 use Closure;
-use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Traits\Macroable;
 use League\Csv\Reader;
 
